@@ -1,6 +1,11 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
 
+
+
+// COMMUNICATION ----------------------------------------------
+
+
 byte data[24]={0x00};
 
 void receive(HardwareSerial *ser){
@@ -39,3 +44,26 @@ void debug_dataprint(HardwareSerial *ser){
   }
   ser->println("");
 }
+
+
+
+
+// AIR --------------------------------------------------------
+/**
+ * エアシリ番号
+ * 指3本…0番
+ * 手首変形…1番
+ * 
+*/
+//エアシリのボタン[指3本,手首変形]
+const int BUTTON_AIR[2]={0,2};
+
+void air_setup(){
+  pinMode(BUTTON_AIR[0],OUTPUT);
+  pinMode(BUTTON_AIR[1],OUTPUT);
+}
+
+// DCMotor ----------------------------------------------------
+
+
+// PHYSICAL SWITCH --------------------------------------------

@@ -2,7 +2,7 @@
 #define DXL_H
 
 //PlatformIOを使用する際は下のコメントアウトを外す
-//#include <Arduino.h>
+#include <Arduino.h>
 #include <HardwareSerial.h>
 
 class Dxl{

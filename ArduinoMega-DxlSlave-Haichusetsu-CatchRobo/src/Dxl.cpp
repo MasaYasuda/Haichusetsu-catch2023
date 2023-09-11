@@ -1,4 +1,8 @@
+#include <Arduino.h>
 #include <Dxl.h>
+/*
+Dxlはスピード正(+)で「正面から見て反時計回転」
+*/
 
 Dxl::Dxl(int id,HardwareSerial *ser){
     ID=id;
