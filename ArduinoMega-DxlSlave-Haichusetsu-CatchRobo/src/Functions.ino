@@ -81,22 +81,22 @@ void dxl_output(){
   //昇降上入力
   if(data[BUTTON_ID1[0]]){
     Dxl_1.servo_speed(MAX_SPEED[0]);
-    delay(100);
+    delay(50);
   }
   //昇降下入力
   if(data[BUTTON_ID1[1]]){
-    Dxl_1.servo_speed(MAX_SPEED[0]);
-    delay(100);
+    Dxl_1.servo_speed(-MAX_SPEED[0]);
+    delay(50);
   }
   //手首右入力
   if(data[BUTTON_ID2[0]]){
-    Dxl_1.servo_speed(MAX_SPEED[1]);
-    delay(100);
+    Dxl_2.servo_speed(MAX_SPEED[1]);
+    delay(50);
   }
   //手首左入力
   if(data[BUTTON_ID2[1]]){
-    Dxl_1.servo_speed(MAX_SPEED[1]);
-    delay(100);
+    Dxl_2.servo_speed(-MAX_SPEED[1]);
+    delay(50);
   }
 }
 
