@@ -64,7 +64,6 @@ const int BUTTON_ID1[2]={7,5};
 const int BUTTON_ID2[2]={20,21};
 
 void dxl_setup(){
-  Serial2.begin(115200);
   delay(200);
   // 制御設定
   //1   Velocity Control Mode
