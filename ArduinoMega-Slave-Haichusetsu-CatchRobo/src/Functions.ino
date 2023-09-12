@@ -135,7 +135,8 @@ void motor_setup(){
   
   //PWM周波数変更(2,3,5が変更される)
   TCCR3B = (TCCR3B & 0b11111000) | 0b00000001;
-
+  //PWM周波数変更(11,12が変更される)
+  TCCR1B = (TCCR1B & 0b11111000) | 0b00000001;
 }
 
 void motor_output(){
@@ -223,6 +224,20 @@ void dxl_setup(){
 
 void debug_dxl_input(){
   data[BUTTON_ID1[0]]=1;
+}
+
+unsigned long last_trq_on = 0; // 前回の時間を格納する変数
+
+void dxl_alltrq_on() {
+  unsigned long nowtime = millis(); // 現在の時間を取得
+
+  // 1秒経過したかどうかをチェック
+  if (nowtime - last_trq_on >= 1000) {
+    Dxl_1.servo_torque(1);
+    Dxl_2.servo_torque(1);
+    delay(100);
+    last_trq_on = nowtime; // 前回の時間を更新
+  }
 }
 
 void dxl_output(){

@@ -16,9 +16,8 @@ void loop(){
   debug_dataprint(&Serial);
   air_output();
   motor_output();
+  dxl_alltrq_on();
   dxl_output();
-
-
-
   delay(20);
 }
+
