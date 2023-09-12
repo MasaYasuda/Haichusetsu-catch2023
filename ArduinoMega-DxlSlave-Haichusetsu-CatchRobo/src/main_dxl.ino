@@ -9,7 +9,7 @@ void setup(){
 
 void loop(){
   receive(&Serial1);
+  debug_dataprint(&Serial);
   dxl_output();
   delay(20);
 }
-
