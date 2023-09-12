@@ -17,5 +17,8 @@ void loop(){
   air_output();
   motor_output();
   dxl_output();
+
+
+
   delay(20);
 }

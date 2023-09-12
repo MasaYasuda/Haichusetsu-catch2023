@@ -7,8 +7,12 @@
 
 
 byte data[24]={0x00};
+unsigned long previousMillis = 0;
+const long interval = 500;
 
 void receive(HardwareSerial *ser){
+  unsigned long currentMillis = millis(); // 現在の時間を取得
+
   if(ser->available() >=5){
     byte buf[5]={0x00};
     byte tmp_sum = 0;
@@ -37,8 +41,22 @@ void receive(HardwareSerial *ser){
           for(;ser->available()>0;){
             num=ser->read();
           }
+          previousMillis = currentMillis; // 前回の時間を更新
         }
     }
+  }
+  
+
+  // 0.5秒経過したかどうかをチェック
+  if (currentMillis - previousMillis >= interval) {
+    // 0.5秒経過したら特定の配列をすべて0にする
+    all_clear();
+  }
+}
+
+void all_clear(){
+  for(int i=0;i<24;i++){
+    data[i]=0;
   }
 }
 
