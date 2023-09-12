@@ -87,6 +87,11 @@ void dxl_output(){
     Dxl_1.servo_speed(-MAX_SPEED[0]);
     delay(50);
   }
+  if(data[BUTTON_ID1[0]]|data[BUTTON_ID1[1]]==0){
+    Dxl_1.servo_speed(0);
+    delay(50);
+  }
+
   //手首右入力
   if(data[BUTTON_ID2[0]]){
     Dxl_2.servo_speed(MAX_SPEED[1]);
@@ -95,6 +100,10 @@ void dxl_output(){
   //手首左入力
   if(data[BUTTON_ID2[1]]){
     Dxl_2.servo_speed(-MAX_SPEED[1]);
+    delay(50);
+  }
+  if(data[BUTTON_ID2[0]]|data[BUTTON_ID2[1]]==0){
+    Dxl_2.servo_speed(0);
     delay(50);
   }
 }
