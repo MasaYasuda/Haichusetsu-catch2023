@@ -30,6 +30,11 @@ void receive(HardwareSerial *ser){
             // 下位ビットから順にビットを抽出してdata配列に格納
             data[i] = (buf[i/8 +1] >> i%8) & 0x01;
           }
+
+          byte num=0x00;
+          for(;ser->available()>0;){
+            num=ser->read();
+          }
         }
     }
   }
