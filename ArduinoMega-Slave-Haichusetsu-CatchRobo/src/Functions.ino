@@ -118,20 +118,18 @@ void air_output(){
  * モーター番号
  * 横移動…0番
  * 前後移動…1番
- * 台座回転…2番
 */
-//モーターのボタン[右移動,左移動,前移動,後移動,時計回転,反時計回転]
-const int BUTTON_MOTOR[6]={16,17,18,19,20,21};
+//モーターのボタン[右移動,左移動,前移動,後移動]
+const int BUTTON_MOTOR[4]={16,17,18,19};
 //モーターのDIR,PWM出力ピン番号
-const int PIN_MDIR[3]={30,32,34};
-const int PIN_MPWM[3]={2,3,5};
+const int PIN_MDIR[2]={30,32};
+const int PIN_MPWM[2]={11,12};
 //モーターの回転速度
-const int MAX_SPEED[3]={100,50,50};
+const int MAX_SPEED[2]={100,50};
 
 void motor_setup(){
   pinMode(PIN_MDIR[0],OUTPUT);
   pinMode(PIN_MDIR[1],OUTPUT);
-  pinMode(PIN_MDIR[2],OUTPUT);
   
   //PWM周波数変更(2,3,5が変更される)
   TCCR3B = (TCCR3B & 0b11111000) | 0b00000001;
@@ -150,11 +148,6 @@ void motor_output(){
   int tmp_pwm1 = MAX_SPEED[1]*(data[BUTTON_MOTOR[2]]|data[BUTTON_MOTOR[3]]);
   digitalWrite(PIN_MDIR[1],tmp_dir1);
   analogWrite(PIN_MPWM[1],tmp_pwm1);
-  //回転
-  int tmp_dir2 = data[BUTTON_MOTOR[4]];//この時MDはHIGHで正回転命令→時計回転
-  int tmp_pwm2 = MAX_SPEED[2]*(data[BUTTON_MOTOR[4]]|data[BUTTON_MOTOR[5]]);
-  digitalWrite(PIN_MDIR[2],tmp_dir2);
-  analogWrite(PIN_MPWM[2],tmp_pwm2);
 }
 
 // PHYSICAL SWITCH --------------------------------------------
@@ -197,17 +190,21 @@ void switch_input(){
  * Dynamixelの割り当て番号(id)
  * 昇降：1
  * 手首：2
+ * 台座回転：3
 */
 
 // IDは，モータ個別にDynamixel Wizard2で割り振ってください．
 Dxl Dxl_1(1,&Serial2);
 Dxl Dxl_2(2,&Serial2);
+Dxl Dxl_3(3,&Serial2);
 //駆動速度[昇降,手首]
-const int MAX_DXL_SPEED[2]={100,100};
+const int MAX_DXL_SPEED[3]={100,100,100};
 //id1(昇降)のボタン[上移動、下移動]
 const int BUTTON_ID1[2]={7,5};
 //id2(手首)のボタン[右移動、左移動]
-const int BUTTON_ID2[2]={20,21};
+const int BUTTON_ID2[2]={4,6};
+//id3(台座回転)のボタン[右回転、左回転]
+const int BUTTON_ID3[2]={20,21};
 
 void dxl_setup(){
   delay(200);
@@ -215,11 +212,12 @@ void dxl_setup(){
   //1   Velocity Control Mode
   //3   Position Control Mode
   //4   Extended Position Control Mode
-  Dxl_1.servo_control(1); //角度制御設定
-  Dxl_2.servo_control(1); //角度制御設定
+  Dxl_1.servo_control(1); 
+  Dxl_2.servo_control(1); 
+  Dxl_3.servo_control(1); 
   Dxl_1.servo_torque(1);
   Dxl_2.servo_torque(1);
-  delay(400);
+  Dxl_3.servo_torque(1);
 }
 
 void debug_dxl_input(){
@@ -235,7 +233,7 @@ void dxl_alltrq_on() {
   if (nowtime - last_trq_on >= 1000) {
     Dxl_1.servo_torque(1);
     Dxl_2.servo_torque(1);
-    delay(100);
+    Dxl_3.servo_torque(1);
     last_trq_on = nowtime; // 前回の時間を更新
   }
 }
@@ -244,31 +242,37 @@ void dxl_output(){
   //昇降上入力
   if(data[BUTTON_ID1[0]]){
     Dxl_1.servo_speed(MAX_DXL_SPEED[0]);
-    delay(50);
   }
   //昇降下入力
   if(data[BUTTON_ID1[1]]){
     Dxl_1.servo_speed(-MAX_DXL_SPEED[0]);
-    delay(50);
   }
   if(data[BUTTON_ID1[0]]==0 && data[BUTTON_ID1[1]]==0){
     Dxl_1.servo_speed(0);
-    delay(50);
   }
 
   //手首右入力
   if(data[BUTTON_ID2[0]]){
     Dxl_2.servo_speed(MAX_DXL_SPEED[1]);
-    delay(50);
   }
   //手首左入力
   if(data[BUTTON_ID2[1]]){
     Dxl_2.servo_speed(-MAX_DXL_SPEED[1]);
-    delay(50);
   }
   if(data[BUTTON_ID2[0]]==0 && data[BUTTON_ID2[1]]==0){
     Dxl_2.servo_speed(0);
-    delay(50);
+  }
+
+  //台座回転右入力
+  if(data[BUTTON_ID3[0]]){
+    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
+  }
+  //台座回転入力
+  if(data[BUTTON_ID3[1]]){
+    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
+  }
+  if(data[BUTTON_ID3[0]]==0 && data[BUTTON_ID3[1]]==0){
+    Dxl_3.servo_speed(0);
   }
 }
 
