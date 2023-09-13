@@ -122,7 +122,7 @@ void air_output(){
 //モーターのボタン[右移動,左移動,前移動,後移動]
 const int BUTTON_MOTOR[4]={16,17,18,19};
 //モーターのDIR,PWM出力ピン番号
-const int PIN_MDIR[2]={30,32};
+const int PIN_MDIR[2]={30,42};
 const int PIN_MPWM[2]={11,12};
 //モーターの回転速度
 const int MAX_SPEED[2]={100,100};

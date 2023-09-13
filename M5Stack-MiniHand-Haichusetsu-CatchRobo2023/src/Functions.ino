@@ -1,13 +1,17 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
+#include <PS4Controller.h>
 #include <Dxl.h>
 
 
 // COMMUNICATION ----------------------------------------------
 
 //データ格納用配列
-byte data[24]={0x00}
+byte data[24]={0x00};
 //PS4からのデータ受信&データ格納
+
+unsigned long previousMillis = 0;
+const long interval = 500;
 
 void dataget(){
   unsigned long currentMillis = millis(); // 現在の時間を取得
@@ -81,7 +85,7 @@ Dxl Dxl_5(5,&Serial2);
 //ID:1の位置[close,open]
 const int DXL1_POSITION[2]={0,100};
 //駆動速度[非割り当て、手首、昇降、関節、台座]
-const int MAX_DXL_SPEED[3]={0,100,100,100};
+const int MAX_DXL_SPEED[5]={0,100,100,100,100};
 //id1(手先)のボタン
 const int BUTTON_ID1=0;
 //id2(手首)のボタン[右移動、左移動]
@@ -92,8 +96,6 @@ const int BUTTON_ID3[2]={7,5};
 const int BUTTON_ID4[2]={4,6};
 //id5(台座回転)のボタン[右回転、左回転]
 const int BUTTON_ID5[2]={20,21};
-
-
 
 
 void dxl_setup(){
