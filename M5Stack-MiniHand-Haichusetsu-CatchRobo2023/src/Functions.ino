@@ -82,18 +82,24 @@ Dxl Dxl_2(2,&Serial2);
 Dxl Dxl_3(3,&Serial2);
 Dxl Dxl_4(4,&Serial2);
 Dxl Dxl_5(5,&Serial2);
+
+//dxl1の状態格納変数
+int dxl1_nowout_index=0;
+int state_dxl1=0;
+int last_state_dxl1=0;
+
 //ID:1の位置[close,open]
-const int DXL1_POSITION[2]={0,100};
+const int DXL1_POSITION[2]={2053,1932};
 //駆動速度[非割り当て、手首、昇降、関節、台座]
 const int MAX_DXL_SPEED[5]={0,100,100,100,100};
 //id1(手先)のボタン
 const int BUTTON_ID1=0;
 //id2(手首)のボタン[右移動、左移動]
-const int BUTTON_ID2[2]={7,5};
+const int BUTTON_ID2[2]={4,6};
 //id3(昇降)のボタン[上移動、下移動]
 const int BUTTON_ID3[2]={7,5};
 //id4(関節)のボタン[右回転、左回転]
-const int BUTTON_ID4[2]={4,6};
+const int BUTTON_ID4[2]={16,17};
 //id5(台座回転)のボタン[右回転、左回転]
 const int BUTTON_ID5[2]={20,21};
 
@@ -136,10 +142,7 @@ void dxl_alltrq_on() {
   }
 }
 
-//dxl1の状態格納変数
-int dxl1_nowout_index=0;
-int state_dxl1=0;
-int last_state_dxl1=0;
+
 
 void dxl_output(){
 
@@ -148,7 +151,8 @@ void dxl_output(){
   if (state_dxl1 != last_state_dxl1) {
     // ボタンが押されたときの処理
     if (state_dxl1 == 1) {
-      Dxl_1.servo_position(DXL1_POSITION[1-dxl1_nowout_index]);
+      dxl1_nowout_index=1-dxl1_nowout_index;
+      Dxl_1.servo_position(DXL1_POSITION[dxl1_nowout_index]);
     }
     // ボタンの状態を更新
     last_state_dxl1 = state_dxl1 ;
@@ -181,11 +185,11 @@ void dxl_output(){
 
   //関節右入力
   if(data[BUTTON_ID4[0]]){
-    Dxl_4.servo_speed(-MAX_DXL_SPEED[3]);
+    Dxl_4.servo_speed(MAX_DXL_SPEED[3]);
   }
   //関節左入力
   if(data[BUTTON_ID4[1]]){
-    Dxl_4.servo_speed(MAX_DXL_SPEED[3]);
+    Dxl_4.servo_speed(-MAX_DXL_SPEED[3]);
   }
   if(data[BUTTON_ID4[0]]==0 && data[BUTTON_ID4[1]]==0){
     Dxl_4.servo_speed(0);
