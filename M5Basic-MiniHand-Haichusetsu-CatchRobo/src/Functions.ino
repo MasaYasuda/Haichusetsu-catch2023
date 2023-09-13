@@ -91,7 +91,7 @@ int last_state_dxl1=0;
 //ID:1の位置[close,open]
 const int DXL1_POSITION[2]={2053,1932};
 //駆動速度[非割り当て、手首、昇降、関節、台座]
-const int MAX_DXL_SPEED[5]={0,100,100,100,100};
+const int MAX_DXL_SPEED[5]={0,50,50,50,50};
 //id1(手先)のボタン
 const int BUTTON_ID1=0;
 //id2(手首)のボタン[右移動、左移動]
@@ -173,11 +173,11 @@ void dxl_output(){
 
   //昇降上入力
   if(data[BUTTON_ID3[0]]){
-    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
   }
   //昇降下入力
   if(data[BUTTON_ID3[1]]){
-    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
   }
   if(data[BUTTON_ID3[0]]==0 && data[BUTTON_ID3[1]]==0){
     Dxl_3.servo_speed(0);
