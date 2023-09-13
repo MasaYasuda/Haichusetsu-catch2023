@@ -81,7 +81,7 @@ void debug_dataprint(HardwareSerial *ser){
 //エアシリのボタン[指3本,手首変形]
 const int BUTTON_AIR[2]={0,2};
 //エアシリのdigital出力ピン番号
-const int PIN_AIR[2]={13,24};
+const int PIN_AIR[2]={8,9};
 //エアシリの状態格納変数
 int state_air[2]={0};
 int last_state_air[2]={0};
@@ -125,7 +125,7 @@ const int BUTTON_MOTOR[4]={16,17,18,19};
 const int PIN_MDIR[2]={30,32};
 const int PIN_MPWM[2]={11,12};
 //モーターの回転速度
-const int MAX_SPEED[2]={100,50};
+const int MAX_SPEED[2]={100,100};
 
 void motor_setup(){
   pinMode(PIN_MDIR[0],OUTPUT);
@@ -144,7 +144,7 @@ void motor_output(){
   digitalWrite(PIN_MDIR[0],tmp_dir0);
   analogWrite(PIN_MPWM[0],tmp_pwm0);
   //前後移動
-  int tmp_dir1 = data[BUTTON_MOTOR[2]];//この時MDはHIGHで正回転命令→前移動
+  int tmp_dir1 = data[BUTTON_MOTOR[3]];//この時MDはHIGHで正回転命令→前移動
   int tmp_pwm1 = MAX_SPEED[1]*(data[BUTTON_MOTOR[2]]|data[BUTTON_MOTOR[3]]);
   digitalWrite(PIN_MDIR[1],tmp_dir1);
   analogWrite(PIN_MPWM[1],tmp_pwm1);
@@ -198,7 +198,7 @@ Dxl Dxl_1(1,&Serial2);
 Dxl Dxl_2(2,&Serial2);
 Dxl Dxl_3(3,&Serial2);
 //駆動速度[昇降,手首]
-const int MAX_DXL_SPEED[3]={100,100,100};
+const int MAX_DXL_SPEED[3]={200,25,30};
 //id1(昇降)のボタン[上移動、下移動]
 const int BUTTON_ID1[2]={7,5};
 //id2(手首)のボタン[右移動、左移動]
@@ -265,11 +265,11 @@ void dxl_output(){
 
   //台座回転右入力
   if(data[BUTTON_ID3[0]]){
-    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
   }
   //台座回転入力
   if(data[BUTTON_ID3[1]]){
-    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
   }
   if(data[BUTTON_ID3[0]]==0 && data[BUTTON_ID3[1]]==0){
     Dxl_3.servo_speed(0);
