@@ -137,9 +137,42 @@ void motor_setup(){
   TCCR1B = (TCCR1B & 0b11111000) | 0b00000001;
 }
 
+/** コート反転による台座左右移動の反転
+ * デフォルトモード(motor_mode_index:0):大ロボットが向かって右
+ * 反転モード(motor_mode_index:1):大ロボットが向かって左
+ * 
+ * 切り替え法：オプションとシェアボタンの同時押し（同時押しごとに左右挙動反転）
+*/
+
+//モードチェンジのボタン[オプション,シェア]
+const int BUTTON_CHANGE[2]={12,13};
+//モードの状態格納変数
+int motor_mode_index=0;
+int state_index=0;
+int last_index=0;
+
+void motor_modechange(){
+  // ボタンの状態を読み取り
+  state_index = data[BUTTON_CHANGE[0]]|data[BUTTON_CHANGE[1]];
+  // ボタンが押されたかどうかをチェック
+  if (state_index != last_index) {
+    // ボタンが押されたときの処理
+    if (state_index == HIGH) {
+      motor_mode_index=1-motor_mode_index;
+    }
+    // ボタンの状態を更新
+    last_index = state_index ;
+  }
+}
+
 void motor_output(){
   //左右移動
-  int tmp_dir0 = data[BUTTON_MOTOR[0]];//この時MDはHIGHで正回転命令→右移動
+  int tmp_dir0=0;
+  if(motor_mode_index==0){//デフォルト
+    tmp_dir0 = data[BUTTON_MOTOR[0]];//この時MDはHIGHで正回転命令→右移動
+  }else{
+    tmp_dir0 = data[BUTTON_MOTOR[1]];//この時MDはHIGHで正回転命令→右移動
+  }
   int tmp_pwm0 = MAX_SPEED[0]*(data[BUTTON_MOTOR[0]]|data[BUTTON_MOTOR[1]]);
   digitalWrite(PIN_MDIR[0],tmp_dir0);
   analogWrite(PIN_MPWM[0],tmp_pwm0);
