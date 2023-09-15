@@ -158,7 +158,7 @@ int last_index=0;
 
 void motor_modechange(){
   // ボタンの状態を読み取り
-  state_index = data[BUTTON_CHANGE[0]]|data[BUTTON_CHANGE[1]];
+  state_index = data[BUTTON_CHANGE[0]] & data[BUTTON_CHANGE[1]];
   // ボタンが押されたかどうかをチェック
   if (state_index != last_index) {
     // ボタンが押されたときの処理
