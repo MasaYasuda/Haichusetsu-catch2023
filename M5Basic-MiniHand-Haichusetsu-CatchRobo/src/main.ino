@@ -3,7 +3,8 @@
 
 void setup() {
   Serial.begin(115200);
-  PS4.begin("24:D7:EB:39:42:92");
+  Serial2.begin(115200);
+  PS4.begin("78:21:84:A6:7B:52");
   dxl_setup();
 }
 
@@ -12,6 +13,5 @@ void loop() {
   dataget();
   dxl_alltrq_on();
   dxl_output();
-  //送信間隔
-  delay(100);
+  delay(10);
 }
