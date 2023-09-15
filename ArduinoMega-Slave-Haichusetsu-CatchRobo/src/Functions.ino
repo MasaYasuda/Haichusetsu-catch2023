@@ -2,6 +2,11 @@
 #include <HardwareSerial.h>
 #include <Dxl.h>
 
+// GENERAL ----------------------------------------------
+
+//SlowMode(ゆっくり操作する)
+const int BUTTON_SLOW=8;
+
 
 // COMMUNICATION ----------------------------------------------
 
@@ -166,6 +171,7 @@ void motor_modechange(){
 }
 
 void motor_output(){
+  motor_modechange();
   //左右移動
   int tmp_dir0=0;
   if(motor_mode_index==0){//デフォルト
@@ -173,12 +179,12 @@ void motor_output(){
   }else{
     tmp_dir0 = data[BUTTON_MOTOR[1]];//この時MDはHIGHで正回転命令→右移動
   }
-  int tmp_pwm0 = MAX_SPEED[0]*(data[BUTTON_MOTOR[0]]|data[BUTTON_MOTOR[1]]);
+  int tmp_pwm0 = (int)MAX_SPEED[0]*(data[BUTTON_MOTOR[0]]|data[BUTTON_MOTOR[1]])/(data[BUTTON_SLOW]+1);
   digitalWrite(PIN_MDIR[0],tmp_dir0);
   analogWrite(PIN_MPWM[0],tmp_pwm0);
   //前後移動
   int tmp_dir1 = data[BUTTON_MOTOR[3]];//この時MDはHIGHで正回転命令→前移動
-  int tmp_pwm1 = MAX_SPEED[1]*(data[BUTTON_MOTOR[2]]|data[BUTTON_MOTOR[3]]);
+  int tmp_pwm1 = (int)MAX_SPEED[1]*(data[BUTTON_MOTOR[2]]|data[BUTTON_MOTOR[3]])/(data[BUTTON_SLOW]+1);
   digitalWrite(PIN_MDIR[1],tmp_dir1);
   analogWrite(PIN_MPWM[1],tmp_pwm1);
 }
@@ -274,11 +280,11 @@ void dxl_alltrq_on() {
 void dxl_output(){
   //昇降上入力
   if(data[BUTTON_ID1[0]]){
-    Dxl_1.servo_speed(MAX_DXL_SPEED[0]);
+    Dxl_1.servo_speed((int)MAX_DXL_SPEED[0]/(data[BUTTON_SLOW]+1));
   }
   //昇降下入力
   if(data[BUTTON_ID1[1]]){
-    Dxl_1.servo_speed(-MAX_DXL_SPEED[0]);
+    Dxl_1.servo_speed((int)(-1)*MAX_DXL_SPEED[0]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID1[0]]==0 && data[BUTTON_ID1[1]]==0){
     Dxl_1.servo_speed(0);
@@ -286,11 +292,11 @@ void dxl_output(){
 
   //手首右入力
   if(data[BUTTON_ID2[0]]){
-    Dxl_2.servo_speed(MAX_DXL_SPEED[1]);
+    Dxl_2.servo_speed((int)MAX_DXL_SPEED[1]/(data[BUTTON_SLOW]+1));
   }
   //手首左入力
   if(data[BUTTON_ID2[1]]){
-    Dxl_2.servo_speed(-MAX_DXL_SPEED[1]);
+    Dxl_2.servo_speed((int)(-1)*MAX_DXL_SPEED[1]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID2[0]]==0 && data[BUTTON_ID2[1]]==0){
     Dxl_2.servo_speed(0);
@@ -298,11 +304,11 @@ void dxl_output(){
 
   //台座回転右入力
   if(data[BUTTON_ID3[0]]){
-    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed((int)(-1)*MAX_DXL_SPEED[2]/(data[BUTTON_SLOW]+1));
   }
   //台座回転入力
   if(data[BUTTON_ID3[1]]){
-    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed((int)MAX_DXL_SPEED[2]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID3[0]]==0 && data[BUTTON_ID3[1]]==0){
     Dxl_3.servo_speed(0);

@@ -3,6 +3,11 @@
 #include <PS4Controller.h>
 #include <Dxl.h>
 
+// GENERAL ----------------------------------------------
+
+//SlowMode(ゆっくり操作する)
+const int BUTTON_SLOW=8;
+
 
 // COMMUNICATION ----------------------------------------------
 
@@ -160,11 +165,11 @@ void dxl_output(){
 
   //手首右入力
   if(data[BUTTON_ID2[0]]){
-    Dxl_2.servo_speed(MAX_DXL_SPEED[1]);
+    Dxl_2.servo_speed((int)MAX_DXL_SPEED[1]/(data[BUTTON_SLOW]+1));
   }
   //手首左入力
   if(data[BUTTON_ID2[1]]){
-    Dxl_2.servo_speed(-MAX_DXL_SPEED[1]);
+    Dxl_2.servo_speed((int)(-1)*MAX_DXL_SPEED[1]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID2[0]]==0 && data[BUTTON_ID2[1]]==0){
     Dxl_2.servo_speed(0);
@@ -173,11 +178,11 @@ void dxl_output(){
 
   //昇降上入力
   if(data[BUTTON_ID3[0]]){
-    Dxl_3.servo_speed(-MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed((int)(-1)*MAX_DXL_SPEED[2]/(data[BUTTON_SLOW]+1));
   }
   //昇降下入力
   if(data[BUTTON_ID3[1]]){
-    Dxl_3.servo_speed(MAX_DXL_SPEED[2]);
+    Dxl_3.servo_speed((int)MAX_DXL_SPEED[2]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID3[0]]==0 && data[BUTTON_ID3[1]]==0){
     Dxl_3.servo_speed(0);
@@ -185,11 +190,11 @@ void dxl_output(){
 
   //関節右入力
   if(data[BUTTON_ID4[0]]){
-    Dxl_4.servo_speed(MAX_DXL_SPEED[3]);
+    Dxl_4.servo_speed((int)MAX_DXL_SPEED[3]/(data[BUTTON_SLOW]+1));
   }
   //関節左入力
   if(data[BUTTON_ID4[1]]){
-    Dxl_4.servo_speed(-MAX_DXL_SPEED[3]);
+    Dxl_4.servo_speed((int)(-1)*MAX_DXL_SPEED[3]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID4[0]]==0 && data[BUTTON_ID4[1]]==0){
     Dxl_4.servo_speed(0);
@@ -197,11 +202,11 @@ void dxl_output(){
 
   //台座回転右入力
   if(data[BUTTON_ID5[0]]){
-    Dxl_5.servo_speed(-MAX_DXL_SPEED[4]);
+    Dxl_5.servo_speed((int)(-1)*MAX_DXL_SPEED[4]/(data[BUTTON_SLOW]+1));
   }
   //台座回転左入力
   if(data[BUTTON_ID5[1]]){
-    Dxl_5.servo_speed(MAX_DXL_SPEED[4]);
+    Dxl_5.servo_speed((int)MAX_DXL_SPEED[4]/(data[BUTTON_SLOW]+1));
   }
   if(data[BUTTON_ID5[0]]==0 && data[BUTTON_ID5[1]]==0){
     Dxl_5.servo_speed(0);
