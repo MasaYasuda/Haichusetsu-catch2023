@@ -1,3 +1,8 @@
+/**
+ * ESP32のBluetoothのMacAddrを表示
+ * ref : https://gifu-robocon.esa.io/posts/421
+*/
+
 #include <Arduino.h>
 
 void setup(void) {
@@ -9,3 +14,4 @@ void setup(void) {
 
 void loop() {
 }
+

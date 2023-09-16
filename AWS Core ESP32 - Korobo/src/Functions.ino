@@ -82,11 +82,11 @@ void all_clear(){
 */
 
 // IDは，モータ個別にDynamixel Wizard2で割り振ってください．
-Dxl Dxl_1(1,&Serial2);
-Dxl Dxl_2(2,&Serial2);
-Dxl Dxl_3(3,&Serial2);
-Dxl Dxl_4(4,&Serial2);
-Dxl Dxl_5(5,&Serial2);
+Dxl Dxl_1(1,&Serial);
+Dxl Dxl_2(2,&Serial);
+Dxl Dxl_3(3,&Serial);
+Dxl Dxl_4(4,&Serial);
+Dxl Dxl_5(5,&Serial);
 
 //dxl1の状態格納変数
 int dxl1_nowout_index=0;
@@ -94,7 +94,7 @@ int state_dxl1=0;
 int last_state_dxl1=0;
 
 //ID:1の位置[close,open]
-const int DXL1_POSITION[2]={2053,1700};
+const int DXL1_POSITION[2]={2060,1700};
 //駆動速度[非割り当て、手首、昇降、関節、台座]
 const int MAX_DXL_SPEED[5]={0,50,50,50,50};
 //id1(手先)のボタン
