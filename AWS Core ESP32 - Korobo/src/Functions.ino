@@ -96,7 +96,7 @@ int last_state_dxl1=0;
 //ID:1の位置[close,open]
 const int DXL1_POSITION[2]={2495,2048};
 //駆動速度[非割り当て、手首、昇降、関節、台座]
-const int MAX_DXL_SPEED[5]={0,50,50,50,50};
+const int MAX_DXL_SPEED[5]={0,75,75,75,75};
 //id1(手先)のボタン
 const int BUTTON_ID1=0;
 //id2(手首)のボタン[右移動、左移動]
