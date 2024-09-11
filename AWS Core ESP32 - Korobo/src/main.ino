@@ -3,7 +3,7 @@
 
 void setup() {
   Serial.begin(115200);
-  PS4.begin("78:21:84:A7:B2:D6");
+  PS4.begin("xx:xx:xx:xx:xx:xx");
   dxl_setup();
 }
 
